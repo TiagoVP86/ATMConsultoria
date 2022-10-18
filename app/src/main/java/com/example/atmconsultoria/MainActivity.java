@@ -1,5 +1,6 @@
 package com.example.atmconsultoria;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -32,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
+        enviarEmail();
       }
     });
     DrawerLayout drawer = binding.drawerLayout;
@@ -47,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
     NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
     NavigationUI.setupWithNavController(navigationView, navController);
+  }
+
+  public void enviarEmail() {
+    Intent intent = new Intent(Intent.ACTION_SEND);
+
+    intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"atendimento@atmconsultoria.com"});
+    intent.putExtra(Intent.EXTRA_SUBJECT, "Contato pelo App");
+    intent.putExtra(Intent.EXTRA_TEXT, "Mensagem Automática");
+
+    intent.setType("message/rfc822");
+
+    startActivity(Intent.createChooser(intent, "Escolha um App de email"));
   }
 
   @Override
